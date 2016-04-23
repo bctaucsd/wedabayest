@@ -1,5 +1,6 @@
 import csv
 import sys
+#import MySQLdb
 # NOT_APPLICABLE_SYM =  indicates that the data are not applicable.
 # MISSING_DATA_SYM =  indicates that the data are missing.
 # DOES_NOT_MEAT_STANDARD_SYM = indicates that the data do not meet NCES data quality standards.
@@ -8,7 +9,6 @@ SCHOOL_NAME_COL = 0
 STATE_NAME_COL = 1
 NCES_ID_COL = 2
 AGENCY_ID_COL = 3
-STATE_ABBR_COL = 6
 COUNTY_NAME_COL = 7
 COUNTY_ID_COL = 8
 SCHOOL_TYPE_COL = 9
@@ -43,17 +43,13 @@ def firstRowIndex():
 				print(str(i) + " " + val)
 			sys.exit(1)
 
-def parseData():
+def parseDataAndInsert():
 	with open('elsi.csv', 'rb') as elsi:
 		elsi_reader = csv.reader(elsi, delimiter=',')
 		for row in elsi_reader:
 			insertRow(row)
 
 def insertRow(rowList):
-	print(rowList)
-	placeholders = "%s, " * 29
-	insertStatement = "INSERT INTO School (" + (placeholders[0:-2]) + ")"
-
 	values = []
 	values.append(rowList[NCES_ID_COL])
 	values.append(rowList[AGENCY_ID_COL])
@@ -68,27 +64,49 @@ def insertRow(rowList):
 	values.append(rowList[LONGITUDE_COL])
 	values.append(rowList[LATITUDE_COL])
 	values.append(rowList[TOTAL_STUDENTS_COL])
-	values.append(rowList[URBAN_COL])
-	values.append(rowList[CHARTER_SCHOOL_COL])
-	values.append(rowList[TITLE_I_COL])
-	values.append(rowList[TITLE_I_ELIGIBLE_COL])
-	values.append(rowList[TITLE_I_ELIGIBLE_COL])
-	values.append(rowList[TITLE_I_STATUS_COL])
-	values.append(rowList[FREE_LUNCH_COL])
-	values.append(rowList[REDUCED_PRICE_COL])
-	values.append(rowList[TOTAL_FREE_REDUCED_NUM_COL])
 	values.append(rowList[HS_STUDENTS_COL])
-	values.append(rowList[FULL_TIME_TEACHERS_COL])
-	values.append(rowList[RATIO_COL])
+	#values.append(rowList[FULL_TIME_TEACHERS_COL])
+	#values.append(rowList[RATIO_COL])
 
-	print(insertStatement)
+
 	placeholders = "%s, " * len(values)
 	insertStatement = "INSERT INTO School (" + (placeholders[0:-2]) + ")"
-
 	print(values)
+
+	# cursor = getConnection()
+	# cursor.createTable()
+	# cursor.execute_query(insertStatement, values)
 	
+
+def createTableQuery():
+	table = "CREATE TABLE Schools ("
+	table += "NCES_Id int,"
+	table += "Agency_Id int,"
+	table += "School_Name varchar(255),"
+	table += "State_Name varchar(255),"
+	table += "County_Name varchar(255),"
+	table += "County_Id varchar(255),"
+	table += "School_Type varchar(255),"
+	table += "Location_Zip varchar(255),"
+	table += "Location_City varchar(255),"
+	table += "Location_State varchar(255),"
+	table += "Longitude varchar(255),"
+	table += "Latitude varchar(255),"
+	table += "Total_Students int,"
+	table += "High_School_Students int,"
+	table += ");"
+
+
+# def getConnection():
+# 	conn = MySQLdb.connect(host="192.254.148.221",
+#                        user="bayes",
+#                        passwd="Qn4Jy2WodGYekwjskICV",
+#                        db="bayes")
+# 	cursor = conn.cursor()
+# 	return cursor
 #firstRowIndex()
-parseData()
+query = createTableQuery()
+parseDataAndInsert()
 # 	columns = ""
 # 	insertStatement += "SchoolName"
 # 	insertStatement += ","	
