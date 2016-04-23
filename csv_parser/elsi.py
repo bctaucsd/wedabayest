@@ -70,8 +70,7 @@ def insertRow(rowList):
 
 
 	placeholders = "%s, " * len(values)
-	insertStatement = "INSERT INTO School (" + (placeholders[0:-2]) + ")"
-	print(values)
+	insertStatement = "INSERT INTO Schools (" + (placeholders[0:-2]) + ")"
 
 	# cursor = getConnection()
 	# cursor.createTable()
@@ -80,21 +79,22 @@ def insertRow(rowList):
 
 def createTableQuery():
 	table = "CREATE TABLE Schools ("
-	table += "NCES_Id int,"
-	table += "Agency_Id int,"
-	table += "School_Name varchar(255),"
-	table += "State_Name varchar(255),"
-	table += "County_Name varchar(255),"
-	table += "County_Id varchar(255),"
-	table += "School_Type varchar(255),"
-	table += "Location_Zip varchar(255),"
-	table += "Location_City varchar(255),"
-	table += "Location_State varchar(255),"
-	table += "Longitude varchar(255),"
-	table += "Latitude varchar(255),"
-	table += "Total_Students int,"
-	table += "High_School_Students int,"
+	table += " NCES_Id int,"
+	table += " Agency_Id int,"
+	table += " School_Name varchar(255),"
+	table += " State_Name varchar(255),"
+	table += " County_Name varchar(255),"
+	table += " County_Id varchar(255),"
+	table += " School_Type varchar(255),"
+	table += " Location_Zip varchar(255),"
+	table += " Location_City varchar(255),"
+	table += " Location_State varchar(255),"
+	table += " Longitude varchar(255),"
+	table += " Latitude varchar(255),"
+	table += " Total_Students int,"
+	table += " High_School_Students int"
 	table += ");"
+	return table
 
 
 # def getConnection():
@@ -105,7 +105,8 @@ def createTableQuery():
 # 	cursor = conn.cursor()
 # 	return cursor
 #firstRowIndex()
-query = createTableQuery()
+#query = createTableQuery()
+#print query
 parseDataAndInsert()
 # 	columns = ""
 # 	insertStatement += "SchoolName"
