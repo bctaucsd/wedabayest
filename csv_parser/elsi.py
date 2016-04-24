@@ -50,28 +50,31 @@ def parseDataAndInsert():
 			insertRow(row)
 
 def insertRow(rowList):
+	quote = lambda x: "'" + x + "'"
+	replaceEqual = lambda x: x.replace("=", "")
+	replaceQuote = lambda x: replaceEqual(x).replace("\"", "")
+	replace = lambda x: quote(replaceQuote(x).replace("'", "\\'"))
+
 	values = []
-	values.append(rowList[NCES_ID_COL])
-	values.append(rowList[AGENCY_ID_COL])
-	values.append(rowList[SCHOOL_NAME_COL])
-	values.append(rowList[STATE_NAME_COL])
-	values.append(rowList[COUNTY_NAME_COL])
-	values.append(rowList[COUNTY_ID_COL])
-	values.append(rowList[SCHOOL_TYPE_COL])
-	values.append(rowList[LOCATION_ZIP_COL])
-	values.append(rowList[LOCATION_CITY_COL])
-	values.append(rowList[LOCATION_STATE_COL])
-	values.append(rowList[LONGITUDE_COL])
-	values.append(rowList[LATITUDE_COL])
-	values.append(rowList[TOTAL_STUDENTS_COL])
-	values.append(rowList[HS_STUDENTS_COL])
+	values.append(replace(rowList[NCES_ID_COL]))
+	values.append(replace(rowList[AGENCY_ID_COL]))
+	values.append(replace(rowList[SCHOOL_NAME_COL]))
+	values.append(replace(rowList[STATE_NAME_COL]))
+	values.append(replace(rowList[COUNTY_NAME_COL]))
+	values.append(replace(rowList[COUNTY_ID_COL]))
+	values.append(replace(rowList[SCHOOL_TYPE_COL]))
+	values.append(replace(rowList[LOCATION_ZIP_COL]))
+	values.append(replace(rowList[LOCATION_CITY_COL]))
+	values.append(replace(rowList[LOCATION_STATE_COL]))
+	values.append(replace(rowList[LONGITUDE_COL]))
+	values.append(replace(rowList[LATITUDE_COL]))
+	values.append(replace(rowList[TOTAL_STUDENTS_COL]))
+	values.append(replace(rowList[HS_STUDENTS_COL]))
 	#values.append(rowList[FULL_TIME_TEACHERS_COL])
 	#values.append(rowList[RATIO_COL])
 
-
-	placeholders = "%s, " * len(values)
-	insertStatement = "INSERT INTO Schools (" + (placeholders[0:-2]) + ")"
-
+	insertStatement = "INSERT INTO Schools VALUES (" + ','.join(values) + ")"
+	print(insertStatement)
 	# cursor = getConnection()
 	# cursor.createTable()
 	# cursor.execute_query(insertStatement, values)
