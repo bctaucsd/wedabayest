@@ -42,12 +42,12 @@ def parseDataAndInsert():
 	sqlFile.close()
 
 def insertRow(rowList, sqlFile):
-	quote = lambda x: "'" + x + "'"
 	replace = lambda x: x.replace("'", "\\'")
+	quote = lambda x: "'" + replace(x) + "'"
 
 	values = []
 	values.append(quote(rowList[BUSINESS_ID_COL]))
-	values.append(quote(replace(rowList[CATEGORIES_COL])))
+	values.append(quote(rowList[CATEGORIES_COL]))
 	values.append(quote(rowList[NAME_COL]))
 	values.append(quote(rowList[CITY_COL]))
 	values.append(quote(rowList[STATE_COL]))
