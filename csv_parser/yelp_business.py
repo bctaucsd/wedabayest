@@ -28,18 +28,20 @@ def firstRowIndex():
 	with open('yelp_academic_dataset_business.csv', 'rb') as elsi:
 		elsi_reader = csv.reader(elsi, delimiter=',')
 		for row in elsi_reader:
-			print row
+			print(row)
 			for i, val in enumerate(row):
 				print(str(i) + " " + val)
 			sys.exit(1)
 
 def parseDataAndInsert():
+	sqlFile = open('yelp.sql', 'w')
 	with open('yelp_academic_dataset_business.csv', 'rb') as elsi:
 		elsi_reader = csv.reader(elsi, delimiter=',')
 		for row in elsi_reader:
-			insertRow(row)
+			insertRow(row, sqlFile)
+	sqlFile.close()
 
-def insertRow(rowList):
+def insertRow(rowList, sqlFile):
 	quote = lambda x: "'" + x + "'"
 	replace = lambda x: x.replace("'", "\\'")
 
@@ -66,8 +68,8 @@ def insertRow(rowList):
 	insertStatement +=  LONGITUDE_NAME
 	insertStatement +=  ") VALUES ("
 	insertStatement +=  ','.join(values)
-	insertStatement +=  ");"
-	print(insertStatement)
+	insertStatement +=  ");\n"
+	sqlFile.write(str(insertStatement))
 
 	# cursor = getConnection()
 	# cursor.createTable()
