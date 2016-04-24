@@ -44,12 +44,15 @@ def firstRowIndex():
 			sys.exit(1)
 
 def parseDataAndInsert():
+	sqlFile = open('elsi.sql', 'w')
 	with open('elsi.csv', 'rb') as elsi:
 		elsi_reader = csv.reader(elsi, delimiter=',')
 		for row in elsi_reader:
-			insertRow(row)
+			insertRow(row, sqlFile)
+	sqlFile.close()
+		
 
-def insertRow(rowList):
+def insertRow(rowList, sqlFile):
 	quote = lambda x: "'" + x + "'"
 	replaceEqual = lambda x: x.replace("=", "")
 	replaceQuote = lambda x: replaceEqual(x).replace("\"", "")
@@ -73,8 +76,8 @@ def insertRow(rowList):
 	#values.append(rowList[FULL_TIME_TEACHERS_COL])
 	#values.append(rowList[RATIO_COL])
 
-	insertStatement = "INSERT INTO Schools VALUES (" + ','.join(values) + ")"
-	print(insertStatement)
+	insertStatement = "INSERT INTO Schools VALUES (" + ','.join(values) + ");\n"
+	sqlFile.write(str(insertStatement))
 	# cursor = getConnection()
 	# cursor.createTable()
 	# cursor.execute_query(insertStatement, values)
